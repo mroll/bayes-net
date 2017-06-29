@@ -10,11 +10,12 @@ oo::class create Graph {
 
     constructor   {   } { set Adj {} }
     method adj    { v } { if { [dict exists $Adj $v] } { dict get $Adj $v } }
-    method insert { v } {
-        if { [dict exists $Adj $v] } { return }
-        dict set Adj $v {}
+    method insert { args } {
+        foreach node $args {
+            if { [dict exists $Adj $node] } { return }
+            dict set Adj $node {}
+        }
     }
-    method inserts { args } { foreach node $args { my insert $node } }
     method edge    { args } {
         dict for {u v} $args {
             if { [dict exists $Adj $u] && [dict exists $Adj $v] } {
@@ -118,7 +119,7 @@ set mcalls [BayesNode new MaryCalls "
     f      0.01
 "]
 
-$g inserts $burglary $earthquake $alarm $mcalls $jcalls
+$g insert $burglary $earthquake $alarm $mcalls $jcalls
 
 puts [format "%.6f" [$g infer $burglary f $earthquake f $alarm t $jcalls t $mcalls t]]
 
