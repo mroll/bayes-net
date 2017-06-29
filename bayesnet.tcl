@@ -12,7 +12,7 @@ oo::class create Graph {
     method adj    { v } { if { [dict exists $Adj $v] } { dict get $Adj $v } }
     method insert { args } {
         foreach node $args {
-            if { [dict exists $Adj $node] } { return }
+            if { [dict exists $Adj $node] } { continue }
             dict set Adj $node {}
         }
     }
